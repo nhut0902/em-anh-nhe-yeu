@@ -80,7 +80,7 @@ body {
 
 /* Decorative corner hearts */
 .container::after {
-  content: '💕';
+  content: '';
   position: absolute;
   bottom: -15px;
   right: -10px;
@@ -231,7 +231,7 @@ h2 {
 
 /* Decorative stickers */
 .gif_container::before {
-  content: '💖';
+  content: '';
   position: absolute;
   top: -20px;
   right: -15px;
@@ -240,7 +240,7 @@ h2 {
 }
 
 .gif_container::after {
-  content: '✨';
+  content: '';
   position: absolute;
   bottom: -15px;
   left: -10px;
