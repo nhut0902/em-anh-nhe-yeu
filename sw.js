@@ -1,3 +1,4 @@
+// Code By NhutCoder Team · https://nhutcoderteam.io.vn
 const CACHE_NAME = 'valentine-pookie-v1';
 const ASSETS_TO_CACHE = [
     './',

@@ -1,3 +1,4 @@
+// Code By NhutCoder Team · https://nhutcoderteam.io.vn
 // loader.js
 window.addEventListener('load', function() {
     const loader = document.getElementById('loading-overlay');

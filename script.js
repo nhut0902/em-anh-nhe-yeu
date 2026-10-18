@@ -1,3 +1,4 @@
+// Code By NhutCoder Team · https://nhutcoderteam.io.vn
 const messages = [
     "Are you sure?",
     "Really sure??",
