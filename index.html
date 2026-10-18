@@ -190,7 +190,7 @@
         </svg>
     </button>
 
-    <div id="panel-backdrop"></div>
+    
     <aside id="settings-panel" role="dialog" aria-label="Tùy chỉnh e-card">
         <button class="close-btn" id="close-panel" aria-label="Đong">×</button>
         <h2>Tùy chỉnh e-card</h2>
@@ -220,6 +220,7 @@
         </div>
     </aside>
 
+    <script src="config.js"></script>
     <script src="script.js"></script>
     <script>
     // Register Service Worker for offline support
@@ -229,105 +230,21 @@
             .catch(err => console.log('Service Worker registration failed', err));
     }
     </script>
-
-    <!-- === New customization script === -->
     <script>
     (function() {
-        const params = new URLSearchParams(window.location.search);
-        const name = params.get("name") || params.get("ten") || "";
-        const wish = params.get("wish") || params.get("msg") || params.get("loichuc") || "";
-        const signature = params.get("signature") || params.get("ky") || "";
-
-        const DEFAULT_NAME = "Hey You";
-        const DEFAULT_WISH = "Cảm ơn em đã nói Yes. Nhân ngày 20/10, chúc em luôn xinh đẹp, rạng rỡ như đóa hồng đầu mùa, và mãi mãi hạnh phúc bên anh.";
-        const DEFAULT_SIG = "— Anh yêu em";
-
-        // Apply to greeting h1
-        const greetingH1 = document.getElementById("greeting-h1");
-        greetingH1.textContent = name || DEFAULT_NAME;
-
-        // Apply to post-yes message
-        const yesRecipient = document.getElementById("yes-recipient");
-        const yesWish = document.getElementById("yes-wish");
-        const yesSig = document.getElementById("yes-sig");
-        const yesMessage = document.getElementById("yes-message");
-
-        yesRecipient.textContent = (name ? name + " đã nói Yes!" : "You said Yes!");
-        yesWish.textContent = wish || DEFAULT_WISH;
-        yesSig.textContent = signature || DEFAULT_SIG;
-
-        // Override original handleYesClick to also show message
-        const originalHandleYes = window.handleYesClick;
-        window.handleYesClick = function() {
-            if (typeof originalHandleYes === "function") {
-                try { originalHandleYes(); } catch (e) {}
-            }
-            // Show the post-yes message after 1.5s (original animation)
-            setTimeout(() => { yesMessage.classList.add("show"); }, 1500);
+        var cfg = window.VALENTINE_CONFIG || {
+            name: "Hey You",
+            wish: "Cảm ơn em đã nói Yes. Nhân ngày 20/10, chúc em luôn xinh đẹp, rạng rỡ như đóa hồng đầu mùa, và mãi mãi hạnh phúc bên anh. Em là điều tốt đẹp nhất mà anh từng có.",
+            signature: "— Anh yêu em ❤"
         };
-
-        // === Settings panel logic ===
-        const gearBtn = document.getElementById("gear-btn");
-        const panel = document.getElementById("settings-panel");
-        const backdrop = document.getElementById("panel-backdrop");
-        const closeBtn = document.getElementById("close-panel");
-        const inputName = document.getElementById("input-name");
-        const inputWish = document.getElementById("input-wish");
-        const inputSignature = document.getElementById("input-signature");
-        const saveBtn = document.getElementById("save-btn");
-        const toast = document.getElementById("toast");
-
-        inputName.value = name || "";
-        inputWish.value = wish || "";
-        inputSignature.value = signature || "";
-
-        function openPanel() { panel.classList.add("open"); backdrop.classList.add("show"); }
-        function closePanel() { panel.classList.remove("open"); backdrop.classList.remove("show"); }
-
-        gearBtn.addEventListener("click", openPanel);
-        closeBtn.addEventListener("click", closePanel);
-        backdrop.addEventListener("click", closePanel);
-        document.addEventListener("keydown", (e) => { if (e.key === "Escape" && panel.classList.contains("open")) closePanel(); });
-
-        saveBtn.addEventListener("click", () => {
-            const n = inputName.value.trim();
-            const w = inputWish.value.trim();
-            const s = inputSignature.value.trim();
-            const newParams = new URLSearchParams();
-            if (n) newParams.set("name", n);
-            if (w) newParams.set("wish", w);
-            if (s) newParams.set("signature", s);
-            const newUrl = window.location.origin + window.location.pathname + (newParams.toString() ? "?" + newParams.toString() : "");
-            window.history.replaceState({}, "", newUrl);
-
-            // Apply to display
-            greetingH1.textContent = n || DEFAULT_NAME;
-            yesRecipient.textContent = (n ? n + " đã nói Yes!" : "You said Yes!");
-            yesWish.textContent = w || DEFAULT_WISH;
-            yesSig.textContent = s || DEFAULT_SIG;
-
-            if (navigator.clipboard && navigator.clipboard.writeText) {
-                navigator.clipboard.writeText(newUrl).then(() => {
-                    toast.classList.add("show");
-                    setTimeout(() => toast.classList.remove("show"), 5000);
-                }).catch(() => { selectAndCopy(newUrl); });
-            } else { selectAndCopy(newUrl); }
-        });
-
-        function selectAndCopy(text) {
-            const ta = document.createElement("textarea");
-            ta.value = text;
-            ta.style.position = "fixed";
-            ta.style.left = "-9999px";
-            document.body.appendChild(ta);
-            ta.select();
-            try { document.execCommand("copy"); } catch (e) {}
-            document.body.removeChild(ta);
-            toast.classList.add("show");
-            setTimeout(() => toast.classList.remove("show"), 5000);
-        }
+        document.getElementById("greeting-h1").textContent = cfg.name;
+        document.getElementById("yes-recipient").textContent = cfg.name + " đã nói Yes!";
+        document.getElementById("yes-wish").textContent = cfg.wish;
+        document.getElementById("yes-sig").textContent = cfg.signature;
     })();
     </script>
+
+    
 
 <!-- ====== NhutCoder Team credit (do not remove) ====== -->
 <div style="position:fixed; bottom:6px; left:0; right:0; text-align:center; font-size:10px; color:rgba(255,255,255,0.35); pointer-events:none; z-index:9999; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif; letter-spacing:0.04em; user-select:none;">
